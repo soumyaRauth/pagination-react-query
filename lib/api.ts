@@ -1,13 +1,12 @@
-import { PaginationProp } from "./types";
+import { PaginationProps } from "./types";
 
-const API_ROOT = process.env.apiurl;
+const API_URL = process.env.apiurl;
 
-if (!API_ROOT) {
-  throw new Error("API URL is not defined");
-}
-
-export const fetchPokemonData = async ({ offset, limit }: PaginationProp) => {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon");
+export const fetchPokemonList = async ({
+  limit = 10,
+  offset = 0,
+}: PaginationProps) => {
+  const response = await fetch(`${API_URL}?offset=${offset}&limit=${limit}`);
   const data = await response.json();
   return data;
 };

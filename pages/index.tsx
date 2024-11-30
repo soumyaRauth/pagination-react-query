@@ -1,57 +1,28 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Button } from "@/components/ui/button";
-import { InferGetStaticPropsType } from "next";
+import Header from "@/components/project/Header.tsx/Header";
+import Posts from "@/components/project/Posts/Posts";
+import { fetchPokemonList } from "@/lib/api";
+import { PokemonProps } from "@/lib/types";
 import { WithGetStaticProps } from "@/lib/utils";
-import { fetchPokemonData } from "@/lib/api";
-import { PaginationProp, SinglePokemonProp } from "@/lib/types";
-import { useState } from "react";
+import { count } from "console";
+import { InferGetStaticPropsType } from "next";
 
-export default function Home({
+const HomePage = ({
   pokemons,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [paginationValue, setPaginationValue] = useState<PaginationProp>({
-    offset: 1,
-    limit: 2,
-  });
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <div>
-      {pokemons.results.map((poke: SinglePokemonProp) => (
-        <div>
-          <div>{poke.name}</div>
-          <div>{poke.url}</div>
-        </div>
-      ))}
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-
-      <Button variant="secondary">Secondary Test</Button>
-    </div>
+    <>
+      <Header title="my blog" caseName="title" recentButton={false} />
+      <Posts count={0} results={pokemons.results}></Posts>
+    </>
   );
-}
+};
+
+export default HomePage;
 
 export const getStaticProps = WithGetStaticProps(
-  () => fetchPokemonData({ offset: 0, limit: 10 }),
-  "pokemons"
+  fetchPokemonList,
+  "pokemons",
+  40,
+  10,
+  0
 );
