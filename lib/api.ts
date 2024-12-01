@@ -1,6 +1,6 @@
 import { PaginationProps, PokemonProps } from "./types";
 
-const API_URL = process.env.apiurl;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchPokemonList = async ({
   limit = 10,
