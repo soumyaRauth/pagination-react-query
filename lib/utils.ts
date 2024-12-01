@@ -9,21 +9,17 @@ export function cn(...inputs: ClassValue[]) {
 
 export const WithGetStaticProps = <T>(
   fetcher: (args: PaginationProps) => Promise<T>,
-  propName: string,
+  paramName: string,
   revalidateValue: number,
-  limit: number, // Pass `limit` as a parameter
+  limit: number,
   offset: number
-): GetStaticProps => {
-  return async (context?: GetStaticPropsContext) => {
+): GetStaticProps<{ [key: string]: T }> => {
+  return async () => {
     const response = await fetcher({ limit, offset });
-
-    console.log("FETCHER RESPONSE");
-    console.log("====================");
-    console.log(response);
 
     return {
       props: {
-        [propName]: response as PokemonProps,
+        [paramName]: response,
       },
       revalidate: revalidateValue,
     };

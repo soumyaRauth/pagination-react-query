@@ -1,5 +1,6 @@
 import Header from "@/components/project/Header.tsx/Header";
-import Posts from "@/components/project/Posts/Posts";
+import PokemonList from "@/components/project/Posts/PokemonList";
+import Posts from "@/components/project/Posts/PokemonList";
 import { fetchPokemonList } from "@/lib/api";
 import { PokemonProps } from "@/lib/types";
 import { WithGetStaticProps } from "@/lib/utils";
@@ -9,10 +10,13 @@ import { InferGetStaticPropsType } from "next";
 const HomePage = ({
   pokemons,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  console.log("pokemons printing");
+  console.log(pokemons);
+
   return (
     <>
       <Header title="my blog" caseName="title" recentButton={false} />
-      <Posts count={0} results={pokemons.results}></Posts>
+      <PokemonList count={0} results={pokemons.results} />
     </>
   );
 };
