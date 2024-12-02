@@ -6,8 +6,37 @@ import { WithGetStaticProps } from "@/lib/utils";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { InferGetStaticPropsType } from "next";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const NUMBER_OF_PAGS = 10 as const;
+
+const Spinner = () => (
+  <div
+    style={{
+      position: "fixed", // Fixed to stay in place
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(255, 255, 255, 0.5)", // Semi-transparent white background
+      zIndex: "9999", // Make sure the spinner is on top of everything else
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <div
+      style={{
+        fontSize: "16px",
+        fontWeight: "bold",
+        textAlign: "center",
+      }}
+    >
+      Loading...
+    </div>
+  </div>
+);
+
 const HomePage = ({
   pokemons,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -30,22 +59,31 @@ const HomePage = ({
   return (
     <>
       <Header title="my blog" caseName="title" recentButton={false} />
-      <p className="container flex justify-center mt-10">
-        Total Pages:{pokemons.count}
-      </p>
-      <p className="container flex justify-center mt-10">
-        current page: {pageNumber}
-      </p>
 
-      {/* {error && <p>HELLO KITTY!!!</p>} */}
+      {/* Container for Total Pages and Current Page */}
+      <div className="container flex justify-center ml-20 mt-10">
+        <p className="text-lg font-semibold">Total Pages: {pokemons.count}</p>
+        <span className="mx-4">|</span> {/* Spacer */}
+        <p className="text-lg font-semibold">Current Page: {pageNumber}</p>
+      </div>
+
+      {/* Show Spinner when Loading or Fetching */}
+      <div>{isFetching || isLoading ? <Spinner /> : ""}</div>
+
       <PokemonList count={0} results={data ? data.results : pokemons.results} />
-      {/* Pagination Component */}
-      <PaginationComponent
-        pageNumber={pageNumber}
-        onPageChange={handlePageChange} // Pass handler to the child component
-        totalPages={Math.ceil(pokemons.count / NUMBER_OF_PAGS)}
-      />
-      {isFetching ? <>FETCHING</> : ""}
+
+      <div className="container flex justify-center mb-5 ml-40">
+        <Button
+          className="mr-1"
+          onClick={() => pageNumber > 0 && setPageNumber(pageNumber - 1)}
+        >
+          Previous
+        </Button>
+        <Button className="mr-1" variant="secondary">
+          1
+        </Button>
+        <Button onClick={() => setPageNumber(pageNumber + 1)}>Next</Button>
+      </div>
     </>
   );
 };
