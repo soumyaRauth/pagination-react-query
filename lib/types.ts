@@ -8,6 +8,10 @@ export type PokemonProps = {
 };
 
 export type PaginationProps = {
+  pageNumber: number;
   limit?: number;
   offset?: number;
+  setPageNumber?: number;
+  totalPages?: number;
+  onPageChange?: (pageNumber: number) => void;
 };
