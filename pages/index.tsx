@@ -8,7 +8,7 @@ import { InferGetStaticPropsType } from "next";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const NUMBER_OF_PAGS = 10 as const;
+const NUMBER_OF_PAGES: Readonly<number> = 1302;
 
 const Spinner = () => (
   <div
@@ -45,7 +45,7 @@ const HomePage = ({
     queryKey: ["pokemons", pageNumber],
     queryFn: () =>
       fetchPokemonList({
-        limit: NUMBER_OF_PAGS,
+        limit: NUMBER_OF_PAGES,
         offset: pageNumber - 1,
         pageNumber: pageNumber,
       }),
@@ -94,6 +94,6 @@ export const getStaticProps = WithGetStaticProps(
   fetchPokemonList,
   "pokemons",
   60,
-  NUMBER_OF_PAGS,
+  NUMBER_OF_PAGES,
   0
 );
