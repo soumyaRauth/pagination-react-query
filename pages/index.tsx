@@ -8,7 +8,7 @@ import { InferGetStaticPropsType } from "next";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const NUMBER_OF_PAGES: Readonly<number> = 1302;
+const NUMBER_OF_PAGES: Readonly<number> = 10;
 
 const Spinner = () => (
   <div
@@ -41,7 +41,7 @@ const HomePage = ({
   pokemons,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const { data, isLoading, error, isFetching } = useQuery({
+  const { data, isLoading, error, isFetching, isPending } = useQuery({
     queryKey: ["pokemons", pageNumber],
     queryFn: () =>
       fetchPokemonList({
@@ -51,10 +51,6 @@ const HomePage = ({
       }),
     placeholderData: keepPreviousData,
   });
-
-  const handlePageChange = (newPage: number) => {
-    setPageNumber(newPage);
-  };
 
   return (
     <>
@@ -68,22 +64,8 @@ const HomePage = ({
       </div>
 
       {/* Show Spinner when Loading or Fetching */}
-      <div>{isFetching || isLoading ? <Spinner /> : ""}</div>
-
+      <div>{isFetching || isLoading || isPending ? <Spinner /> : ""}</div>
       <PokemonList count={0} results={data ? data.results : pokemons.results} />
-
-      <div className="container flex justify-center mb-5 ml-40">
-        <Button
-          className="mr-1"
-          onClick={() => pageNumber > 0 && setPageNumber(pageNumber - 1)}
-        >
-          Previous
-        </Button>
-        <Button className="mr-1" variant="secondary">
-          1
-        </Button>
-        <Button onClick={() => setPageNumber(pageNumber + 1)}>Next</Button>
-      </div>
     </>
   );
 };

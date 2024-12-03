@@ -10,7 +10,7 @@ export namespace Pokemon {
 }
 
 
-export namespace Pagination{
+export namespace PaginationProp {
   export type PaginationProps = {
     pageNumber: number;
     limit: number;
