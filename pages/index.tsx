@@ -10,7 +10,6 @@ import { Pokemon } from "@/lib/types";
 const NUMBER_OF_PAGES: Readonly<number> = 9;
 
 const HomePage = () => {
-
   //- useInfiniteQuery implementaion
   const {
     data,
@@ -38,8 +37,6 @@ const HomePage = () => {
   return (
     <>
       <Header title="my blog" caseName="title" recentButton={false} />
-
-      {/* <PaginationOverview pokemons={pokemons} pageNumber={0} /> */}
 
       {isFetching || isLoading || isPending ? <Spinner /> : ""}
 
