@@ -7,10 +7,11 @@ export namespace Pokemon {
     count: number;
     results: Pokemon.Single[];
     next: string;
+    previous: string;
   };
 
-  export type MultiplePartial=Partial<Multiple>
-  export type SinglePartial=Partial<Single>
+  export type MultiplePartial = Partial<Multiple>;
+  export type SinglePartial = Partial<Single>;
 }
 
 export namespace PaginationProp {
