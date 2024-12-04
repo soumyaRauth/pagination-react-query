@@ -5,10 +5,13 @@ export namespace Pokemon {
   };
   export type Multiple = {
     count: number;
-    results: Pokemon.Single;
+    results: Pokemon.Single[];
+    next: string;
   };
-}
 
+  export type MultiplePartial=Partial<Multiple>
+  export type SinglePartial=Partial<Single>
+}
 
 export namespace PaginationProp {
   export type PaginationProps = {
@@ -19,7 +22,6 @@ export namespace PaginationProp {
     totalPages: number;
     onPageChange: (pageNumber: number) => void;
   };
-  
+
   export type PaginationPropsOptional = Partial<PaginationProps>;
 }
-
